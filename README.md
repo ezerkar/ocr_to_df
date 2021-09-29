@@ -2,7 +2,7 @@
 ### use pytesseract to create pandas dataframes
 
 #### python requirements:
-opencv, pandas, pytesseract, Pillow (for Mac and Win)
+opencv, pandas, pytesseract, Pillow (for Mac and Win - untested yet)
 
 #### general requirements:
 Tesseract, xclip (for Linux)
