@@ -84,13 +84,13 @@ def get_list_of_dfs_by_boundaries(tesseract_df, lines):
                 lodf.append(df00)
     return lodf
 
-def create_col_list(col_tesseract_df, horizontal_lines, i):
+def create_col_list(col_tesseract_df, horizontal_lines, i, end):
     l = []
     df0 = col_tesseract_df.copy()
     df0['bottom'] = df0['top']+df0['height']
-    h_boundaries = [0] + horizontal_lines
-    for boundary in h_boundaries:
-        df00 = df0[df0['top']>=boundary][:1]
+    h_boundaries = [0] + horizontal_lines + [end]
+    for i, boundary in enumerate(h_boundaries[:-1]):
+        df00 = df0[(df0['top']>=boundary) & (df0['bottom']<=h_boundaries[i+1])]
         if df00.shape[0]==0:
             l.append(np.nan)
         else:
@@ -99,10 +99,10 @@ def create_col_list(col_tesseract_df, horizontal_lines, i):
             l[0] = f'col_{i}'
     return l[0], l[1:]
 
-def create_result_df(cols_lodf, horizontal_lines, header=True):
+def create_result_df(image, cols_lodf, horizontal_lines, header=True):
     result_df = pd.DataFrame()
     for i, df0 in enumerate(cols_lodf):
-        first, rest = create_col_list(df0, horizontal_lines, i)
+        first, rest = create_col_list(df0, horizontal_lines, i, image.shape[0])
         if header:
             result_df[first] = rest
         else:
@@ -125,7 +125,7 @@ def image_to_df(image, header=True, verbose=False, conf_th=60):
 #         display(tesseract_df)
 
     
-    return create_result_df(cols_lodf, horizontal_lines, header).dropna(how='all')
+    return create_result_df(image, cols_lodf, horizontal_lines, header=header).dropna(how='all')
 
 def image_path_to_df(path, header=True, verbose=False, conf_th=60):
     image = cv2.imread(path)
