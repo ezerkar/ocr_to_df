@@ -16,6 +16,7 @@ def clipboard_to_image():
         return cv2.imread('/tmp/clipboard.png', cv2.IMREAD_UNCHANGED)
     else:
         im = ImageGrab.grabclipboard()
+        im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
         return im
     
 def get_tesseract_df(image):
