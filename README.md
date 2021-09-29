@@ -1,8 +1,8 @@
-# ocr_to_df
-use pytesseract to create pandas dataframes
+# OCR to DF
+### use pytesseract to create pandas dataframes
 
-python requirements:
+#### python requirements:
 opencv, pandas, pytesseract, PIL (for Mac and Win)
 
-general requirements:
+#### general requirements:
 Tesseract, xclip (for Linux)
